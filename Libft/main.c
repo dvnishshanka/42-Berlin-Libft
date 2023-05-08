@@ -161,26 +161,78 @@ static void	chk_memcmp(void)
 	s3 = "Hello";
 	s4 = "hello";
 	s5 = "help";
-	if (ft_memcmp(s1, s3, 6) == memcmp(s1, s3, 6)
-		&& ft_memcmp(s1, s2, 4) == memcmp(s1, s2, 4)
-		&& ft_memcmp(s1, s3, 7) == memcmp(s1, s3, 7)
-		&& ft_memcmp(s1, s2, 2) == memcmp(s1, s2, 2)
-		&& ft_memcmp(s4, s5, 5) == memcmp(s4, s5, 5)
-		&& ft_memcmp(s4, s5, 6) == memcmp(s4, s5, 6))
+	if ((ft_memcmp(s1, s3, 6)  == 0 && memcmp(s1, s3, 6) == 0)
+    &&( ft_memcmp(s1, s2, 4) < 0 &&  memcmp(s1, s2, 4) < 0)
+		&&( ft_memcmp(s1, s2, 2) == 0 &&  memcmp(s1, s2, 2) == 0)
+		&&( ft_memcmp(s4, s5, 3) == 0 &&  memcmp(s4, s5, 3) == 0)
+		&&( ft_memcmp(s4, s5, 5) < 0 &&  memcmp(s4, s5, 5) < 0))
 		printf("ft_memcmp - OK\n");
 	else
-		printf("ft_memcmp - KO\n");
+  printf("ft_memcmp - KO\n");
 }
 
-// static void	check_strlcpy(void)
-// {
-// 	char	dst[4];
-// 	char	*src = "Hel";
-// 	char	dst1[4];
+static void	check_strlcpy(void)
+{
+	char	dst[4] = "111";
+	char	*src = "Hello";
+  char dst2[8] = "333";
 
-// 	printf("%ul %s / %d %s\n", ft_strlcpy(dst, src,600), dst, strlcpy(dst1, src, 600), dst1);
+	printf("ft_strlcpy(Hel): %lu %s\n", ft_strlcpy(dst, src, 4), dst);
+  printf("ft_strlcat(8, 333Hell): %lu %s\n", ft_strlcat(dst2, src, 8), dst2);
+}
 
-// }
+static void	check_strnstr(void)
+{
+	char	*src = "Hello";
+
+  printf("ft_strnstr(ello): %s\n", ft_strnstr(src, "el", 8));
+  printf("ft_strnstr(null): %s\n", ft_strnstr(src, "el", 2));
+  printf("ft_strnstr(Hello): %s\n", ft_strnstr(src, "", 4));
+  printf("ft_strnstr(null): %s\n", ft_strnstr(src, "11", 4));
+}
+
+static void chk_atoi(void)
+{
+	if ((ft_atoi("  -0")   == atoi("  -0"))
+  && (ft_atoi("  -12346ty")   == atoi("  -12346ty"))
+    && (ft_atoi("   +2147483647") ==  atoi("   +2147483647"))
+		&& (ft_atoi("   -2147483648") ==  atoi("   -2147483648")))
+		printf("ft_atoi - OK\n");
+	else
+    printf("ft_atoi - KO\n");
+}
+
+static void chk_strdup(void)
+{
+  char	*src = "Hello";
+
+  printf("ft_strdup(Hello): %s\n", ft_strdup(src));
+  printf("strdup(Hello): %s\n", strdup(src));
+}
+
+static void chk_substr(void)
+{
+  char	*src = "Hello";
+
+  printf("ft_substr(el): %s\n", ft_substr(src, 1, 2));
+  printf("ft_substr(Hello): %s\n", ft_substr(src, 0, 7));
+}
+
+static void chk_strjoin(void)
+{
+  printf("ft_strjoin(Hello): %s\n", ft_strjoin("Hel","lo"));
+  printf("ft_strjoin(there): %s\n", ft_strjoin("there", ""));
+  printf("ft_strtrim(ello): %s\n", ft_strtrim("Hello","lH"));
+  printf("ft_strtrim(null): %s\n", ft_strtrim("", "er"));
+}
+
+static void chk_itoa(void)
+{
+  printf("ft_itoa(0): %s\n", ft_itoa(0));
+  printf("ft_itoa(-2147483648): %s\n", ft_itoa(-2147483648));
+  printf("ft_itoa(2147483647): %s\n", ft_itoa(+2147483647));
+  printf("ft_itoa(-505): %s\n", ft_itoa(-505));
+}
 
 int	main(void)
 {
@@ -196,6 +248,12 @@ int	main(void)
 	chk_memmove();
 	chk_memchr();
 	chk_memcmp();
-	// check_strlcpy();
+	check_strlcpy();
+  check_strnstr();
+  chk_atoi();
+  chk_strdup();
+  chk_substr();
+  chk_strjoin();
+  chk_itoa();
 	return (0);
 }

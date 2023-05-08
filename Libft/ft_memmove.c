@@ -21,7 +21,7 @@ dest, and the bytes are then copied from the temporary array to dest.
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	size_t		i;
+	int		i;
 	const char	*src_ptr;
 	char		*dest_ptr;
 
