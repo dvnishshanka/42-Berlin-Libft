@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 15:42:54 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/05 16:14:04 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/09 09:59:09 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	size_t	i;
+	size_t				i;
 	const unsigned char	*s1_ptr;
 	const unsigned char	*s2_ptr;
 

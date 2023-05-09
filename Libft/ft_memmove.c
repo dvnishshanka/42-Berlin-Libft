@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 13:04:00 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/05 13:28:22 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/09 10:06:35 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@ dest, and the bytes are then copied from the temporary array to dest.
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	int		i;
+	int			i;
 	const char	*src_ptr;
 	char		*dest_ptr;
 
 	i = (n - 1);
 	src_ptr = (const char *)src;
 	dest_ptr = (char *)dest;
-
 	if (src_ptr < dest_ptr && (src_ptr + n) > dest_ptr)
 	{
 		while (i >= 0)
