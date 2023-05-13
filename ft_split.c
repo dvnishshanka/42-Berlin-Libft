@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:17:48 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/10 18:31:48 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/13 15:02:42 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static size_t	count_substr(char const *s, char sep)
 	while (s[i])
 	{
 		if (s[i] == sep && (i > 0 && s[i - 1] != sep))
-    		{
+		{
 			count ++;
 		}
 		else if (i == (ft_strlen(s) - 1) && s[i - 1] != sep)
@@ -50,7 +50,7 @@ static size_t	count_substr(char const *s, char sep)
 	return (count);
 }
 
-static void	ft_free(char **strs, int j)
+static char	**ft_free(char **strs, int j)
 {
 	while (j >= 0)
 	{
@@ -58,6 +58,16 @@ static void	ft_free(char **strs, int j)
 		j --;
 	}
 	free(strs);
+	return (0);
+}
+
+// Find last word
+static char	*last_word(char const *s, size_t	i, size_t	prev)
+{
+	if (prev != 0)
+		return (ft_substr(s, (prev + 1), i - prev));
+	else
+		return (ft_substr(s, prev, i - prev + 1));
 }
 
 // Seperate words inside
@@ -70,48 +80,20 @@ static char	**sep_words(char const *s, char sep, char **arr, int size)
 	i = 0;
 	j = 0;
 	prev = 0;
-	if (!s)
-		return (0);
-	while (s[i] && s[i] == sep)
+	while (s[i++])
 	{
-		prev = i;
-		i++;
-	}
-	while (s[i])
-	{
-		if (s[i] == sep)
+		if (s[i] == sep || (s[i] != sep && i == (ft_strlen(s) - 1)))
 		{
-			if ((prev != 0 || (s[prev] == sep && prev == 0)) && s[i - 1] != sep)
-			{
-				arr[j] = ft_substr(s, (prev + 1), i - (prev + 1));
-				j++;
-			}
-			else if (prev == 0 && (s[0] != sep) && s[i - 1] != sep)
-			{
-				arr[j] = ft_substr(s, prev, i - prev);
-				j++;
-			}
+			if (prev != 0 && s[i - 1] != sep && s[i] == sep)
+				arr[j++] = (ft_substr(s, (prev + 1), i - (prev + 1)));
+			else if (prev == 0 && s[i - 1] != sep && s[i] == sep)
+				arr[j++] = (ft_substr(s, prev, i - prev));
+			else if (i == (ft_strlen(s) - 1) && (prev != (i - 1)))
+				arr[j++] = last_word(s, i, prev);
 			if (j > 0 && !arr[j - 1])
-			{
-				ft_free(arr, size);
-				return (0);
-			}
+				return (ft_free(arr, size));
 			prev = i;
 		}
-		else if (i == (ft_strlen(s) - 1) && (prev != (i - 1)))
-		{
-			if (prev != 0)
-				arr[j] = ft_substr(s, (prev + 1), i - prev);
-			else
-				arr[j] = ft_substr(s, prev, i - prev + 1);
-			if (!arr[j])
-			{
-				ft_free(arr, size);
-				return (0);
-			}
-			j ++;
-		}
-		i++;
 	}
 	return (arr);
 }
@@ -120,7 +102,9 @@ char	**ft_split(char const *s, char c)
 {
 	char	**arr;
 	size_t	no_elements;
+	size_t	i;
 
+	i = 0;
 	if (!s)
 		return (0);
 	no_elements = count_substr(s, c);
@@ -129,6 +113,10 @@ char	**ft_split(char const *s, char c)
 		return (0);
 	arr[no_elements] = 0;
 	if (no_elements > 0)
-		return (sep_words(s, c, arr, no_elements + 1));
+	{
+		while (s[i] && s[i] == c)
+			i++;
+		return (sep_words(&s[i], c, arr, no_elements + 1));
+	}
 	return (arr);
 }

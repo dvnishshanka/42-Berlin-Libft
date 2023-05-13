@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/13 13:04:19 by dnishsha          #+#    #+#             */
+/*   Updated: 2023/05/13 13:04:24 by dnishsha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
@@ -14,18 +25,18 @@ Finally, the pointer to the list must be set to
 NULL.
 */
 
-void ft_lstclear(t_list **lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-  t_list *temp;
+	t_list	*temp;
 
-  if (!del || !lst)
-    return ;
-  while ((**lst).next != 0)
-  {
-    temp = (*lst)->next;
-    ft_lstdelone(*lst, del);
-    *lst = temp;
-  }
-   ft_lstdelone(*lst, del);
-  *lst = 0;
+	if (!del || !lst)
+		return ;
+	while ((**lst).next != 0)
+	{
+		temp = (*lst)->next;
+		ft_lstdelone(*lst, del);
+		*lst = temp;
+	}
+	ft_lstdelone(*lst, del);
+	*lst = 0;
 }

@@ -23,10 +23,10 @@ all: $(NAME)
 
 # Command to produce the executable with the object files as an input.
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	ar -rcs $(NAME) $(OBJS)
 
-bonus: $(OBJS_BONUS)
-	ar rcs $(NAME) $(OBJS_BONUS)
+bonus:  $(OBJS) $(OBJS_BONUS)
+	ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 
 $(OBJS):
 	$(CC) $(CFLAGS) -c $(SRCS)
@@ -40,15 +40,10 @@ clean:
 	rm -f $(OBJS) ${OBJS_BONUS}
 
 fclean: clean
-	rm -f $(OBJS) $(NAME) ${OBJS_BONUS}
-
-# For testing purpose only (Ubuntu)
-so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS_BONUS)
-	gcc -nostartfiles -shared -o libft.so $(OBJS_BONUS)
+	rm -f $(NAME)
 
 # 're' ("rebuild" / "recompile") target is typically used to clean the build directory and rebuild the entire project from scratch.
 # When you run make re, Make will execute the clean target to remove all generated files and then execute the all target to rebuild the entire project from scratch.
-.PHONY: re bonus
-
 re: fclean all
+
+.PHONY: re bonus all fclean clean
