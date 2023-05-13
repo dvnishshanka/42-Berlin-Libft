@@ -15,6 +15,7 @@
 /*
 s: The string on which to iterate.
 f: The function to apply to each character.
+Return: None
 
 Applies the function ’f’ on each character of
 the string passed as argument, passing its index

@@ -11,16 +11,22 @@ ft_memmove.c ft_memchr.c ft_memcmp.c ft_strlcpy.c ft_strlcat.c ft_strnstr.c ft_a
 ft_calloc.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c \
 ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c
 
+SRCS_BONUS = ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
+	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c
+
 # This creates a list of object files to be generated from the source files.
 OBJS = $(SRCS:.c=.o)
+
+OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
 all: $(NAME)
 
 # Command to produce the executable with the object files as an input.
-#$(NAME): $(OBJS)
-	 #$(CC) $(OBJS) -o $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
+
+bonus: $(OBJS_BONUS)
+	ar rcs $(NAME) $(OBJS_BONUS)
 
 $(OBJS):
 	$(CC) $(CFLAGS) -c $(SRCS)
@@ -31,18 +37,18 @@ $(OBJS):
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -f $(OBJS) ${OBJS_BONUS}
 
 fclean: clean
-	rm -f $(OBJS) $(NAME)
+	rm -f $(OBJS) $(NAME) ${OBJS_BONUS}
 
-# For testing purpose only
+# For testing purpose only (Ubuntu)
 so:
-	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS)
-	gcc -nostartfiles -shared -o libft.so $(OBJS)
+	$(CC) -nostartfiles -fPIC $(CFLAGS) $(SRCS_BONUS)
+	gcc -nostartfiles -shared -o libft.so $(OBJS_BONUS)
 
 # 're' ("rebuild" / "recompile") target is typically used to clean the build directory and rebuild the entire project from scratch.
 # When you run make re, Make will execute the clean target to remove all generated files and then execute the all target to rebuild the entire project from scratch.
-.PHONY: re
+.PHONY: re bonus
 
 re: fclean all

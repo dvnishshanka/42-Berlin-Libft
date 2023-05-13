@@ -15,6 +15,7 @@
 /*
 c: The character to output.
 fd: The file descriptor on which to write.
+Return: None
 
 Outputs the character ’c’ to the given file
 descriptor.

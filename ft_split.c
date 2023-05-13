@@ -10,109 +10,108 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "libft.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include "libft.h"
+
 /*
 s: The string to be split.
 c: The delimiter character.
+
+Return: The array of new strings resulting from the split.
+NULL if the allocation fails.
 
 Allocates (with malloc(3)) and returns an array
 of strings obtained by splitting ’s’ using the
 character ’c’ as a delimiter. The array must end
 with a NULL pointer.
-
-The array of new strings resulting from the split.
-NULL if the allocation fails.
 */
-size_t	ft_strlen(const char *s)
-{
-	size_t	length;
-
-	length = 0;
-	while (s[length])
-	{
-		length++;
-	}
-	return (length);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char			*ptr;
-	size_t			i;
-	unsigned int	s_length;
-	unsigned int	substr_length;
-
-	i = 0;
-	if (!s)
-		return (0);
-	s_length = ft_strlen(s);
-	if (s_length <= start)
-		substr_length = 0;
-	else if ((start + len + 1) < s_length)
-		substr_length = len;
-	else
-		substr_length = s_length - start;
-	ptr = (char *)malloc(sizeof(char) * (substr_length + 1));
-	if (!ptr)
-		return (0);
-	while (s[i] && i < substr_length)
-	{
-		ptr[i] = s[i + start];
-		i++;
-	}
-	ptr[i] = '\0';
-	return (ptr);
-}
 
 // Counts the no of array elements
 static size_t	count_substr(char const *s, char sep)
 {
-	int	i;
-	int	count;
-	int	ref;
+	size_t	i;
+	size_t	count;
 
 	i = 0;
-	ref = -1;
 	count = 0;
+	if (!s)
+		return (0);
+	while (s[i] && s[i] == sep)
+		i++;
 	while (s[i])
 	{
-		if (s[i] == sep && (ref == 1 || (i != 0)))
-		{
+		if (s[i] == sep && (i > 0 && s[i - 1] != sep))
+    		{
 			count ++;
-			ref = 0;
-			i++;
 		}
-		else
-			ref = 1;
+		else if (i == (ft_strlen(s) - 1) && s[i - 1] != sep)
+			count ++;
+		i++;
 	}
 	return (count);
 }
 
-// Seperate words inside
-static char	**sep_words(char const *s, char sep, char **arr)
+static void	ft_free(char **strs, int j)
 {
-	int	i;
-	int	prev;
-	int	j;
+	while (j >= 0)
+	{
+		free(strs[j]);
+		j --;
+	}
+	free(strs);
+}
+
+// Seperate words inside
+static char	**sep_words(char const *s, char sep, char **arr, int size)
+{
+	size_t	i;
+	size_t	prev;
+	size_t	j;
 
 	i = 0;
 	j = 0;
-	prev = -1;
+	prev = 0;
+	if (!s)
+		return (0);
+	while (s[i] && s[i] == sep)
+	{
+		prev = i;
+		i++;
+	}
 	while (s[i])
 	{
 		if (s[i] == sep)
 		{
-			if ((prev + 1) < i)
+			if ((prev != 0 || (s[prev] == sep && prev == 0)) && s[i - 1] != sep)
+			{
+				arr[j] = ft_substr(s, (prev + 1), i - (prev + 1));
+				j++;
+			}
+			else if (prev == 0 && (s[0] != sep) && s[i - 1] != sep)
 			{
 				arr[j] = ft_substr(s, prev, i - prev);
-				j ++;
+				j++;
+			}
+			if (j > 0 && !arr[j - 1])
+			{
+				ft_free(arr, size);
+				return (0);
 			}
 			prev = i;
 		}
+		else if (i == (ft_strlen(s) - 1) && (prev != (i - 1)))
+		{
+			if (prev != 0)
+				arr[j] = ft_substr(s, (prev + 1), i - prev);
+			else
+				arr[j] = ft_substr(s, prev, i - prev + 1);
+			if (!arr[j])
+			{
+				ft_free(arr, size);
+				return (0);
+			}
+			j ++;
+		}
 		i++;
-
 	}
 	return (arr);
 }
@@ -125,11 +124,11 @@ char	**ft_split(char const *s, char c)
 	if (!s)
 		return (0);
 	no_elements = count_substr(s, c);
-	printf("no_elements: %zu\n", count_substr(s, c));
-	arr = (char **)malloc(sizeof(char) * (no_elements + 1));
+	arr = (char **)malloc(sizeof(char *) * (no_elements + 1));
 	if (!arr)
 		return (0);
-	arr[no_elements + 1] = "\0";
-	sep_words(s, c, arr);
+	arr[no_elements] = 0;
+	if (no_elements > 0)
+		return (sep_words(s, c, arr, no_elements + 1));
 	return (arr);
 }
