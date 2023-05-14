@@ -6,12 +6,12 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:17:48 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/14 13:37:53 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/14 22:08:20 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 /*
 s: The string to be split.
 c: The delimiter character.
@@ -44,18 +44,22 @@ static size_t	count_substr(char const *s, char sep)
 	return (count);
 }
 
-static char	**ft_free(char **arr, int j)
+// Free the memory if array memory allocation fails
+static char	**ft_free(char **arr, size_t word)
 {
-	while (j >= 0)
+	size_t	i;
+
+	i = 0;
+	while (i < word)
 	{
-		free(arr[j]);
-		j --;
+		free(arr[i]);
+		i ++;
 	}
 	free(arr);
 	return (0);
 }
 
-static char	**sep_words(char const *s, char sep, char **arr, int size)
+static char	**sep_words(char const *s, char sep, char **arr)
 {
 	size_t	start;
 	size_t	i;
@@ -74,7 +78,7 @@ static char	**sep_words(char const *s, char sep, char **arr, int size)
 		{
 			arr[word] = ft_substr(s, start, i - start + 1);
 			if (!arr[word])
-				return (ft_free(arr, size));
+				return (ft_free(arr, word));
 			word++;
 		}
 		i++;
@@ -95,12 +99,12 @@ char	**ft_split(char const *s, char c)
 	arr = (char **)malloc(sizeof(char *) * (no_elements + 1));
 	if (!arr)
 		return (0);
-	arr[no_elements] = NULL;
+	arr[no_elements] = 0;
 	if (no_elements > 0)
 	{
 		while (s[i] && s[i] == c)
 			i++;
-		return (sep_words(&s[i], c, arr, no_elements + 1));
+		return (sep_words(&s[i], c, arr));
 	}
 	return (arr);
 }
