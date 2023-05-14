@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 13:04:19 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/13 13:04:24 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:26:37 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
 	t_list	*temp;
 
-	if (!del || !lst)
+	if (!del || !lst || !(*lst))
 		return ;
 	while ((**lst).next != 0)
 	{

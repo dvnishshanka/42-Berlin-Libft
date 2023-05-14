@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 12:48:55 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/05 15:39:45 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/14 10:46:33 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	s_ptr = (const char *)s;
 	while (i < n)
 	{
-		if (s_ptr[i] == c)
+		if (s_ptr[i] == (char)c)
 			return ((void *)(&s_ptr[i]));
 		i ++;
 	}

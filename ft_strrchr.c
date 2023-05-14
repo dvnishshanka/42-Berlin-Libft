@@ -6,7 +6,7 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 10:33:50 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/05 10:32:28 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/14 10:45:57 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ char	*ft_strrchr(const char *s, int c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == c)
+		if (s[i] == (char)c)
 			occurrence = (char *)(&s[i]);
 		i ++;
 	}
-	if (s[i] == c)
+	if (s[i] == (char)c)
 		occurrence = (char *)(&s[i]);
 	return (occurrence);
 }

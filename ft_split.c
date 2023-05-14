@@ -6,12 +6,12 @@
 /*   By: dnishsha <dnishsha@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 10:17:48 by dnishsha          #+#    #+#             */
-/*   Updated: 2023/05/13 15:02:42 by dnishsha         ###   ########.fr       */
+/*   Updated: 2023/05/14 13:37:53 by dnishsha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
+#include <stdio.h>
 /*
 s: The string to be split.
 c: The delimiter character.
@@ -35,65 +35,49 @@ static size_t	count_substr(char const *s, char sep)
 	count = 0;
 	if (!s)
 		return (0);
-	while (s[i] && s[i] == sep)
-		i++;
 	while (s[i])
 	{
-		if (s[i] == sep && (i > 0 && s[i - 1] != sep))
-		{
-			count ++;
-		}
-		else if (i == (ft_strlen(s) - 1) && s[i - 1] != sep)
+		if (s[i] != sep && (s[i + 1] == sep || s[i + 1] == 0))
 			count ++;
 		i++;
 	}
 	return (count);
 }
 
-static char	**ft_free(char **strs, int j)
+static char	**ft_free(char **arr, int j)
 {
 	while (j >= 0)
 	{
-		free(strs[j]);
+		free(arr[j]);
 		j --;
 	}
-	free(strs);
+	free(arr);
 	return (0);
 }
 
-// Find last word
-static char	*last_word(char const *s, size_t	i, size_t	prev)
-{
-	if (prev != 0)
-		return (ft_substr(s, (prev + 1), i - prev));
-	else
-		return (ft_substr(s, prev, i - prev + 1));
-}
-
-// Seperate words inside
 static char	**sep_words(char const *s, char sep, char **arr, int size)
 {
+	size_t	start;
 	size_t	i;
-	size_t	prev;
-	size_t	j;
+	size_t	word;
 
+	start = 0;
 	i = 0;
-	j = 0;
-	prev = 0;
-	while (s[i++])
+	word = 0;
+	while (s[i])
 	{
-		if (s[i] == sep || (s[i] != sep && i == (ft_strlen(s) - 1)))
+		if (s[i] == sep)
 		{
-			if (prev != 0 && s[i - 1] != sep && s[i] == sep)
-				arr[j++] = (ft_substr(s, (prev + 1), i - (prev + 1)));
-			else if (prev == 0 && s[i - 1] != sep && s[i] == sep)
-				arr[j++] = (ft_substr(s, prev, i - prev));
-			else if (i == (ft_strlen(s) - 1) && (prev != (i - 1)))
-				arr[j++] = last_word(s, i, prev);
-			if (j > 0 && !arr[j - 1])
-				return (ft_free(arr, size));
-			prev = i;
+			start = i + 1;
 		}
+		else if (s[i] != sep && (s[i + 1] == sep || s[i + 1] == 0))
+		{
+			arr[word] = ft_substr(s, start, i - start + 1);
+			if (!arr[word])
+				return (ft_free(arr, size));
+			word++;
+		}
+		i++;
 	}
 	return (arr);
 }
@@ -111,7 +95,7 @@ char	**ft_split(char const *s, char c)
 	arr = (char **)malloc(sizeof(char *) * (no_elements + 1));
 	if (!arr)
 		return (0);
-	arr[no_elements] = 0;
+	arr[no_elements] = NULL;
 	if (no_elements > 0)
 	{
 		while (s[i] && s[i] == c)
