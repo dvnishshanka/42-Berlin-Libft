@@ -29,7 +29,7 @@ The libft is an re-implementation of set of libc functions and several other uti
 | ft_atoi | Converts the initial portion of the string pointed to by nptr to int. |
 
 
-Result: 125/100
+**Result: 125/100 :white_check_mark:**
 
 Tested Using:
 https://github.com/xicodomingues/francinette
