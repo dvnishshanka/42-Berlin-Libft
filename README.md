@@ -2,6 +2,10 @@
 
 The libft is an re-implementation of set of libc functions and several other utility functions that will be useful for other projects.
 
+**Languages**
+
+[![My Skills](https://skillicons.dev/icons?i=c)](https://skillicons.dev)
+
 **Libc functions**
 
 | Function | Description |
@@ -29,7 +33,7 @@ The libft is an re-implementation of set of libc functions and several other uti
 | ft_atoi | Converts the initial portion of the string pointed to by nptr to int. |
 
 
-**Result: 125/100 :white_check_mark:**
+**Result: :one::two::five: / :one::zero::zero: :heavy_check_mark:**
 
 Tested Using:
 https://github.com/xicodomingues/francinette
