@@ -1,6 +1,6 @@
 # Libft Library
 
-The libft is an re-implementation of set of libc functions and several other utility functions that will be useful for other projects.
+The libft is a re-implementation of set of libc functions and several other utility functions that will be useful for other projects.
 
 **Languages**
 
